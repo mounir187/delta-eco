@@ -2131,6 +2131,12 @@
       -webkit-appearance: none;
       margin: 0;
     }
+    /* phone fix: with the fixed-width viewport, 100vh becomes huge on a
+       phone and leaves big empty gaps — size the hero to its content. */
+    @media (hover: none) and (pointer: coarse) {
+      .hero { min-height: auto; }
+      .hero-grid { align-items: center; }
+    }
   </style>
 </head>
 <body>
