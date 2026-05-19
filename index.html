@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=1280">
   <title>DELTA-ECO | Open-Architecture Delta Robot</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1936,6 +1936,154 @@
       border: 3px solid #0a0d12;
     }
     ::-webkit-scrollbar-thumb:hover { background: #354049; }
+    /* ===== live operator control ===== */
+    .livectl {
+      padding: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .livectl-view {
+      position: relative;
+      min-height: 430px;
+      background: radial-gradient(circle at 50% 38%, #11161d, #07090d);
+      border-right: 1px solid var(--border);
+    }
+    #controlCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: grab;
+      touch-action: pan-y;
+    }
+    #controlCanvas:active { cursor: grabbing; }
+    .livectl-badge {
+      position: absolute;
+      left: 16px; top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(8, 10, 13, .6);
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+    .livectl-badge::before {
+      content: "";
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+    .livectl-panel {
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .livectl-title { font-family: var(--font-head); font-size: 17px; }
+    .livectl-title span {
+      color: var(--muted-2);
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+    .livectl-hint {
+      margin: -4px 0 4px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .ctl-row {
+      display: grid;
+      grid-template-columns: 54px 1fr 64px;
+      align-items: center;
+      gap: 12px;
+    }
+    .ctl-row label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .07em;
+      color: var(--muted);
+    }
+    .ctl-row output {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent);
+      text-align: right;
+    }
+    .ctl-row input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 999px;
+      background: var(--panel-3);
+      outline: none;
+    }
+    .ctl-row input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 3px solid var(--bg-2);
+      cursor: pointer;
+    }
+    .ctl-row input[type="range"]::-moz-range-thumb {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 3px solid var(--bg-2);
+      cursor: pointer;
+    }
+    .livectl-readout {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 2px;
+    }
+    .livectl-readout .ro {
+      padding: 10px 8px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      text-align: center;
+    }
+    .livectl-readout .ro span {
+      display: block;
+      color: var(--muted-2);
+      font-family: var(--font-mono);
+      font-size: 10px;
+    }
+    .livectl-readout .ro b {
+      display: block;
+      margin-top: 4px;
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 500;
+    }
+    .livectl-status {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .08em;
+      color: var(--green);
+    }
+    .livectl-status.bad { color: var(--red); }
+    @media (max-width: 860px) {
+      .livectl { grid-template-columns: 1fr; }
+      .livectl-view { border-right: 0; border-bottom: 1px solid var(--border); min-height: 340px; }
+    }
+
   </style>
 </head>
 <body>
@@ -2529,6 +2677,38 @@
           <div class="eyebrow">Control Interface</div>
           <h2>An operator interface that looks and behaves like an actual control station.</h2>
           <p>The software exposes the robot as a usable industrial tool: live drive states, motion modes, palletizing workflows, manual control, and a right-side control panel that keeps the machine status visible at all times.</p>
+        </div>
+
+        <div class="livectl panel fade-up">
+          <div class="livectl-view">
+            <canvas id="controlCanvas" role="img" aria-label="Interactive delta robot control"></canvas>
+            <div class="livectl-badge">Live IK &middot; drag to orbit</div>
+          </div>
+          <div class="livectl-panel">
+            <div class="livectl-title">Target Position <span>// operator input</span></div>
+            <p class="livectl-hint">Move an axis &mdash; the control software solves inverse kinematics and the machine transforms in real time.</p>
+            <div class="ctl-row">
+              <label>X AXIS</label>
+              <input type="range" id="ctlX" min="-130" max="130" step="1" value="0" aria-label="X axis target">
+              <output id="ctlXv">0 mm</output>
+            </div>
+            <div class="ctl-row">
+              <label>Y AXIS</label>
+              <input type="range" id="ctlY" min="-130" max="130" step="1" value="0" aria-label="Y axis target">
+              <output id="ctlYv">0 mm</output>
+            </div>
+            <div class="ctl-row">
+              <label>Z AXIS</label>
+              <input type="range" id="ctlZ" min="-360" max="-240" step="1" value="-300" aria-label="Z axis target">
+              <output id="ctlZv">-300 mm</output>
+            </div>
+            <div class="livectl-readout">
+              <div class="ro"><span>&theta;1</span><b id="roT1">36&deg;</b></div>
+              <div class="ro"><span>&theta;2</span><b id="roT2">36&deg;</b></div>
+              <div class="ro"><span>&theta;3</span><b id="roT3">36&deg;</b></div>
+            </div>
+            <div class="livectl-status" id="ctlStatus">&#9679; Reachable</div>
+          </div>
         </div>
 
         <div class="panel interface-shell fade-up">
@@ -3318,6 +3498,214 @@
           const off = p.tangential.clone().multiplyScalar(0.14);
           orient(p.rodA, elbowPos.clone().add(off), attach.clone().add(off));
           orient(p.rodB, elbowPos.clone().sub(off), attach.clone().sub(off));
+        }
+
+        controls.update();
+        renderer.render(scene, camera);
+      }
+      resize();
+      frame();
+    })();
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+    (function () {
+      const canvas = document.getElementById('controlCanvas');
+      if (!canvas) return;
+
+      let renderer;
+      try {
+        renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+      } catch (err) { return; }
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.1;
+
+      const scene = new THREE.Scene();
+      try {
+        const pmrem = new THREE.PMREMGenerator(renderer);
+        scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.05).texture;
+      } catch (err) {}
+
+      const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+      camera.position.set(4.8, 1.1, 9.0);
+
+      const controls = new OrbitControls(camera, canvas);
+      controls.target.set(0, -1.7, 0);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.08;
+      controls.enableZoom = false;
+      controls.enablePan = false;
+      controls.autoRotate = true;
+      controls.autoRotateSpeed = 0.5;
+      controls.minPolarAngle = 0.5;
+      controls.maxPolarAngle = Math.PI * 0.62;
+
+      scene.add(new THREE.HemisphereLight(0x9fc0ff, 0x05070b, 0.9));
+      const key = new THREE.DirectionalLight(0xffffff, 2.4);
+      key.position.set(6, 9, 6);
+      scene.add(key);
+      const rim = new THREE.DirectionalLight(0x00d4ff, 1.0);
+      rim.position.set(-3, -5, 4);
+      scene.add(rim);
+
+      const matBase = new THREE.MeshStandardMaterial({ color: 0x171b22, metalness: 0.85, roughness: 0.45 });
+      const matBicep = new THREE.MeshStandardMaterial({ color: 0x2c333f, metalness: 0.9, roughness: 0.34 });
+      const matRod = new THREE.MeshStandardMaterial({ color: 0xccd7e0, metalness: 1.0, roughness: 0.24 });
+      const matMotor = new THREE.MeshStandardMaterial({ color: 0x0a3a47, metalness: 0.7, roughness: 0.3, emissive: 0x00d4ff, emissiveIntensity: 0.55 });
+      const matJoint = new THREE.MeshStandardMaterial({ color: 0x0b1016, metalness: 0.6, roughness: 0.4, emissive: 0x00d4ff, emissiveIntensity: 0.4 });
+      const matPlatform = new THREE.MeshStandardMaterial({ color: 0x232a34, metalness: 0.88, roughness: 0.32 });
+      const matTool = new THREE.MeshStandardMaterial({ color: 0x00d4ff, metalness: 0.3, roughness: 0.25, emissive: 0x00d4ff, emissiveIntensity: 0.85 });
+
+      const Rf = 2.0, Re = 0.55, rf = 1.5, re = 3.4;
+      const robot = new THREE.Group();
+      scene.add(robot);
+
+      const v3 = (x, y, zv) => new THREE.Vector3(x, zv, y);
+      const rotZ = (x, y, a) => [x * Math.cos(a) - y * Math.sin(a), x * Math.sin(a) + y * Math.cos(a)];
+
+      const base = new THREE.Mesh(new THREE.CylinderGeometry(Rf + 0.5, Rf + 0.72, 0.36, 6), matBase);
+      base.rotation.y = Math.PI / 6;
+      robot.add(base);
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(Rf + 0.44, 0.045, 14, 64), matMotor);
+      ring.rotation.x = Math.PI / 2;
+      ring.position.y = -0.2;
+      robot.add(ring);
+
+      const yAxis = new THREE.Vector3(0, 1, 0);
+      function orient(mesh, a, b) {
+        const dir = new THREE.Vector3().subVectors(b, a);
+        const len = dir.length() || 1e-4;
+        mesh.position.copy(a).addScaledVector(dir, 0.5);
+        mesh.quaternion.setFromUnitVectors(yAxis, dir.normalize());
+        mesh.scale.y = len;
+      }
+
+      const arms = [0, 120, -120].map((d) => d * Math.PI / 180);
+      const parts = arms.map((az) => {
+        const m = rotZ(0, -Rf, az);
+        const motorPos = v3(m[0], m[1], 0);
+        const tg = rotZ(0, -1, az + Math.PI / 2);
+        const tangential = new THREE.Vector3(tg[0], 0, tg[1]).normalize();
+
+        const motor = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 1, 28), matMotor);
+        orient(motor, motorPos.clone().addScaledVector(tangential, 0.36), motorPos.clone().addScaledVector(tangential, -0.36));
+        robot.add(motor);
+        const shoulder = new THREE.Mesh(new THREE.SphereGeometry(0.17, 20, 16), matJoint);
+        shoulder.position.copy(motorPos);
+        robot.add(shoulder);
+
+        const bicep = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.11, 1, 20), matBicep);
+        robot.add(bicep);
+        const rodA = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 1, 12), matRod);
+        const rodB = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 1, 12), matRod);
+        robot.add(rodA, rodB);
+        const elbow = new THREE.Mesh(new THREE.SphereGeometry(0.15, 20, 16), matJoint);
+        robot.add(elbow);
+
+        return { az, motorPos, tangential, bicep, rodA, rodB, elbow };
+      });
+
+      const platform = new THREE.Group();
+      platform.add(new THREE.Mesh(new THREE.CylinderGeometry(Re + 0.32, Re + 0.2, 0.16, 6), matPlatform));
+      const toolBody = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.34, 20), matBicep);
+      toolBody.position.y = -0.24;
+      platform.add(toolBody);
+      const toolTip = new THREE.Mesh(new THREE.SphereGeometry(0.12, 20, 16), matTool);
+      toolTip.position.y = -0.46;
+      platform.add(toolTip);
+      robot.add(platform);
+
+      function elbowLocal(x0, y0, z0) {
+        const y1 = -Rf;
+        y0 -= Re;
+        const a = (x0 * x0 + y0 * y0 + z0 * z0 + rf * rf - re * re - y1 * y1) / (2 * z0);
+        const b = (y1 - y0) / z0;
+        const disc = -(a + b * y1) * (a + b * y1) + rf * (b * b * rf + rf);
+        if (disc < 0) return null;
+        const yj = (y1 - a * b - Math.sqrt(disc)) / (b * b + 1);
+        return [yj, a + b * yj];
+      }
+
+      const sx = document.getElementById('ctlX');
+      const sy = document.getElementById('ctlY');
+      const sz = document.getElementById('ctlZ');
+      const ox = document.getElementById('ctlXv');
+      const oy = document.getElementById('ctlYv');
+      const oz = document.getElementById('ctlZv');
+      const r1 = document.getElementById('roT1');
+      const r2 = document.getElementById('roT2');
+      const r3 = document.getElementById('roT3');
+      const statusEl = document.getElementById('ctlStatus');
+
+      function syncOut() {
+        if (ox) ox.textContent = sx.value + ' mm';
+        if (oy) oy.textContent = sy.value + ' mm';
+        if (oz) oz.textContent = sz.value + ' mm';
+      }
+      [sx, sy, sz].forEach((s) => s && s.addEventListener('input', syncOut));
+      syncOut();
+
+      const cur = { x: 0, y: 0, z: -3.0 };
+
+      let lw = 0, lh = 0;
+      function resize() {
+        const w = canvas.clientWidth || 1, h = canvas.clientHeight || 1;
+        if (w === lw && h === lh) return;
+        lw = w; lh = h;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      }
+      window.addEventListener('resize', resize);
+
+      function frame() {
+        requestAnimationFrame(frame);
+        resize();
+
+        const tx = (sx ? +sx.value : 0) / 100;
+        const ty = (sy ? +sy.value : 0) / 100;
+        const tz = (sz ? +sz.value : -300) / 100;
+        const nx = cur.x + (tx - cur.x) * 0.16;
+        const ny = cur.y + (ty - cur.y) * 0.16;
+        const nz = cur.z + (tz - cur.z) * 0.16;
+
+        let reach = true;
+        for (const p of parts) {
+          const lt = rotZ(nx, ny, -p.az);
+          if (!elbowLocal(lt[0], lt[1], nz)) { reach = false; break; }
+        }
+        if (reach) { cur.x = nx; cur.y = ny; cur.z = nz; }
+
+        platform.position.copy(v3(cur.x, cur.y, cur.z));
+        const ang = [0, 0, 0];
+        parts.forEach((p, i) => {
+          const lt = rotZ(cur.x, cur.y, -p.az);
+          const sol = elbowLocal(lt[0], lt[1], cur.z);
+          if (!sol) return;
+          const g = rotZ(0, sol[0], p.az);
+          const elbowPos = v3(g[0], g[1], sol[1]);
+          ang[i] = Math.atan2(-sol[1], Math.abs(sol[0] + Rf)) * 180 / Math.PI;
+          const at = rotZ(0, -Re, p.az);
+          const attach = v3(cur.x + at[0], cur.y + at[1], cur.z);
+          orient(p.bicep, p.motorPos, elbowPos);
+          p.elbow.position.copy(elbowPos);
+          const off = p.tangential.clone().multiplyScalar(0.14);
+          orient(p.rodA, elbowPos.clone().add(off), attach.clone().add(off));
+          orient(p.rodB, elbowPos.clone().sub(off), attach.clone().sub(off));
+        });
+
+        if (r1) r1.textContent = ang[0].toFixed(0) + '°';
+        if (r2) r2.textContent = ang[1].toFixed(0) + '°';
+        if (r3) r3.textContent = ang[2].toFixed(0) + '°';
+        if (statusEl) {
+          statusEl.textContent = reach ? '● Reachable' : '● Out of reach';
+          statusEl.classList.toggle('bad', !reach);
         }
 
         controls.update();
