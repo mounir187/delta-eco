@@ -1867,6 +1867,62 @@
       .pipeline-track { grid-template-columns: 1fr; gap: 26px; }
       .pipeline-track::before { display: none; }
     }
+    /* ===== ported: software stack + vision copy ===== */
+    .soft-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 38px;
+      align-items: center;
+    }
+    .stack-diagram { display: grid; }
+    .stack-layer {
+      position: relative;
+      padding: 16px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+    }
+    .stack-layer.core {
+      border-color: var(--border-strong);
+      background: linear-gradient(180deg, var(--accent-soft), transparent), var(--panel);
+    }
+    .sl-name { font-family: var(--font-head); font-size: 16px; letter-spacing: -.01em; }
+    .stack-layer.core .sl-name { color: var(--accent); }
+    .sl-sub {
+      margin-top: 5px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      letter-spacing: .03em;
+    }
+    .sl-tag {
+      position: absolute;
+      top: 17px; right: 17px;
+      color: var(--muted-2);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: .12em;
+    }
+    .stack-layer.core .sl-tag { color: var(--accent); }
+    .stack-link {
+      width: 2px;
+      height: 13px;
+      margin: 0 auto;
+      background: var(--border);
+    }
+    .vision-copy { align-self: center; }
+    .vision-copy p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.85;
+    }
+    .vision-copy p + p { margin-top: 16px; }
+    .vision-copy .hl { color: var(--text); }
+    @media (max-width: 980px) {
+      .soft-grid { grid-template-columns: 1fr; }
+    }
+
     /* ===== final polish ===== */
     html { scroll-padding-top: 100px; }
     ::selection { background: rgba(0, 212, 255, .26); color: #ffffff; }
@@ -1910,7 +1966,7 @@
     <section class="hero" id="hero">
       <div class="container hero-grid">
         <div class="hero-copy">
-          <div class="kicker">J2M x AUST x Raymond Feghali Co.</div>
+          <div class="kicker">CJM2 x AUST x Raymond Feghali Co.</div>
           <h1><span class="ln">DELTA</span><span class="ln grad">ECO</span></h1>
           <div class="hero-sub">Lebanon's first open-architecture delta robotic arm.</div>
           <div class="hero-tag">No PLC &middot; No Motion Controller &middot; Just a PC and a Cable</div>
@@ -1998,7 +2054,7 @@
 
         <div class="grid-2">
           <div class="panel about-copy fade-up">
-            <p>Developed by Team J2M at AUST in partnership with Raymond Feghali Co., Delta-Eco combines local mechanical design, EtherCAT control, custom C motion software, AI vision integration, and a purpose-built operator interface.</p>
+            <p>Developed by Team JC2M at AUST in partnership with Raymond Feghali Co., Delta-Eco combines local mechanical design, EtherCAT control, custom C motion software, AI vision integration, and a purpose-built operator interface.</p>
             <p>It is not just a prototype arm. It is a complete automation platform with open architecture, deterministic control, and practical factory operating modes.</p>
             <div class="stat-grid">
               <div class="stat-chip card">
@@ -2253,6 +2309,61 @@
       </div>
     </section>
 
+    <section class="section" id="software">
+      <div class="container section-shell">
+        <div class="section-head fade-up">
+          <div class="eyebrow">Software Architecture</div>
+          <h2>The intelligence is<br>in the software.</h2>
+        </div>
+
+        <div class="soft-grid">
+          <div class="stack-diagram slide-left">
+            <div class="stack-layer">
+              <div class="sl-name">Operator GUI</div>
+              <div class="sl-sub">Custom control interface</div>
+              <span class="sl-tag">UI</span>
+            </div>
+            <div class="stack-link"></div>
+            <div class="stack-layer core">
+              <div class="sl-name">Motion Daemon</div>
+              <div class="sl-sub">Custom C / inverse kinematics / trajectory</div>
+              <span class="sl-tag">1 kHz</span>
+            </div>
+            <div class="stack-link"></div>
+            <div class="stack-layer">
+              <div class="sl-name">IgH EtherCAT Master</div>
+              <div class="sl-sub">Real-time bus master</div>
+              <span class="sl-tag">BUS</span>
+            </div>
+            <div class="stack-link"></div>
+            <div class="stack-layer">
+              <div class="sl-name">PREEMPT_RT Linux</div>
+              <div class="sl-sub">Deterministic isolated kernel</div>
+              <span class="sl-tag">OS</span>
+            </div>
+            <div class="stack-link"></div>
+            <div class="stack-layer">
+              <div class="sl-name">Servo Drives &times;3</div>
+              <div class="sl-sub">CSP cyclic position mode</div>
+              <span class="sl-tag">HW</span>
+            </div>
+          </div>
+
+          <ul class="features-list slide-right">
+            <li>1 kHz deterministic control loop</li>
+            <li>Distributed clock compensation</li>
+            <li>CSP servo drive control</li>
+            <li>Jitter monitoring</li>
+            <li>Soft joint limits</li>
+            <li>Torque limits</li>
+            <li>Emergency stop integration</li>
+            <li>Custom GUI</li>
+            <li>No vendor-locked software</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="realtime">
       <div class="container section-shell">
         <div class="pulse-grid">
@@ -2403,7 +2514,7 @@
                 <line x1="556" y1="470" x2="556" y2="514" stroke="#39424f" stroke-width="1"/>
                 <text x="462" y="485" font-family="DM Mono, monospace" font-size="12" fill="#00d4ff">DELTA-ECO</text>
                 <text x="566" y="485" font-family="DM Mono, monospace" font-size="10" fill="#8b97a5">SIDE ELEVATION</text>
-                <text x="462" y="506" font-family="DM Mono, monospace" font-size="10" fill="#8b97a5">J2M / AUST 2026</text>
+                <text x="462" y="506" font-family="DM Mono, monospace" font-size="10" fill="#8b97a5">JC2M / AUST 2026</text>
                 <text x="566" y="506" font-family="DM Mono, monospace" font-size="10" fill="#8b97a5">UNITS: mm / NTS</text>
               </g>
             </svg>
@@ -2659,19 +2770,14 @@
       <div class="container section-shell">
         <div class="section-head fade-up">
           <div class="eyebrow">Computer Vision</div>
-          <h2>Objects can arrive randomly. The robot still knows what to do.</h2>
-          <p>The vision layer removes the need for hard-coded part positions. Detected objects become motion targets in real time, so the robot can respond to actual scene variation instead of relying on fixed placements.</p>
+          <h2>The robot sees<br>before it moves.</h2>
         </div>
 
         <div class="vision-grid">
-          <div class="panel fade-up">
-            <ul class="vision-list">
-              <li>Camera, calibrated and lens-corrected.</li>
-              <li>YOLO-based real-time object detection and classification.</li>
-              <li>No mechanical pre-positioning required for random part placement.</li>
-              <li>Custom datasets tuned to the actual industrial targets.</li>
-              <li>Bounding-box center and class are fed directly into the IK solver as robot targets.</li>
-            </ul>
+          <div class="vision-copy fade-up">
+            <p>Delta-Eco uses a <span class="hl">Basler Ace2 Pro</span> industrial camera and <span class="hl">YOLO-based object detection</span> to identify, classify, and localize objects on a conveyor in real time.</p>
+            <p>Instead of relying on fixed pick points or mechanical guides, the system adapts to object position dynamically.</p>
+            <p>Detected objects are converted into XYZ coordinates and fed directly into the inverse kinematics solver for precision targeting.</p>
           </div>
 
           <div class="panel fade-up">
@@ -2837,7 +2943,7 @@
     <section class="section" id="team">
       <div class="container section-shell">
         <div class="section-head fade-up">
-          <div class="eyebrow">Team J2M</div>
+          <div class="eyebrow">Team JC2M</div>
           <h2>The people behind the machine.</h2>
           <p>American University of Science &amp; Technology &middot; Competition Pitch &middot; 2026</p>
         </div>
@@ -2875,7 +2981,9 @@
         </div>
 
         <div class="panel fade-up" style="margin-top:16px;">
-          <div style="color:var(--accent);font-family:var(--font-mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;">In Partnership with Raymond Feghali Co. / J2M</div>
+          <div style="color:var(--accent);font-family:var(--font-mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;">In Partnership with Raymond Feghali Co. / JC2M
+
+          </div>
         </div>
       </div>
     </section>
@@ -2894,7 +3002,7 @@
           <path d="M32 20L35 28H43L36.5 32.5L39 42L32 37.5L25 42L27.5 32.5L21 28H29L32 20Z" stroke="#00d4ff" stroke-width="2" opacity=".55"/>
         </svg>
       </div>
-      <div class="footer-bottom">&copy; 2026 Team J2M &middot; American University of Science &amp; Technology</div>
+      <div class="footer-bottom">&copy; 2026 Team JC2M &middot; American University of Science &amp; Technology</div>
     </div>
   </footer>
 
