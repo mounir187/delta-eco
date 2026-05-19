@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=1280">
   <title>DELTA-ECO | Open-Architecture Delta Robot</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2115,137 +2115,25 @@
       .livectl-view { border-right: 0; border-bottom: 1px solid var(--border); min-height: 340px; }
     }
 
-    /* ===== mobile paged version ===== */
-    .mobile-bar, .mobile-drawer, .mobile-scrim { display: none; }
-
-    @media (max-width: 820px) {
-      .site-header { display: none !important; }
-      body { padding-top: 56px; }
-
-      main > section { display: none; }
-      main > section.mpage-active { display: block; }
-
-      .mobile-bar {
-        display: flex;
-        position: fixed;
-        top: 0; left: 0; right: 0;
-        z-index: 60;
-        height: 56px;
-        align-items: center;
-        gap: 14px;
-        padding: 0 16px;
-        border-bottom: 1px solid var(--border);
-        background: rgba(8, 10, 13, 0.92);
-        backdrop-filter: blur(10px);
-      }
-      .mobile-burger {
-        width: 40px; height: 38px;
-        display: grid;
-        align-content: center;
-        gap: 5px;
-        padding: 0 10px;
-        border-radius: 10px;
-        border: 1px solid var(--border);
-        background: var(--panel);
-        cursor: pointer;
-      }
-      .mobile-burger span {
-        display: block;
-        height: 2px;
-        border-radius: 2px;
-        background: var(--text);
-      }
-      .mobile-logo {
-        font-family: var(--font-head);
-        font-size: 15px;
-        letter-spacing: .14em;
-      }
-      .mobile-scrim {
-        display: block;
-        position: fixed;
-        inset: 0;
-        z-index: 70;
-        background: rgba(0, 0, 0, .6);
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity .26s ease;
-      }
-      .mobile-scrim.open { opacity: 1; pointer-events: auto; }
-      .mobile-drawer {
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        top: 0; bottom: 0; left: 0;
-        z-index: 71;
-        width: min(82vw, 320px);
-        background: var(--bg-2);
-        border-right: 1px solid var(--border);
-        transform: translateX(-100%);
-        transition: transform .28s ease;
-        overflow-y: auto;
-      }
-      .mobile-drawer.open { transform: translateX(0); }
-      .mobile-drawer-head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 16px 18px;
-        border-bottom: 1px solid var(--border);
-        position: sticky;
-        top: 0;
-        background: var(--bg-2);
-      }
-      .mobile-close {
-        width: 34px; height: 34px;
-        border-radius: 9px;
-        border: 1px solid var(--border);
-        background: var(--panel);
-        color: var(--text);
-        font-size: 20px;
-        line-height: 1;
-        cursor: pointer;
-      }
-      .mobile-nav { padding: 10px; display: flex; flex-direction: column; gap: 2px; }
-      .mobile-nav a {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 13px 14px;
-        border-radius: 10px;
-        color: var(--muted);
-        font-family: var(--font-mono);
-        font-size: 13px;
-        letter-spacing: .04em;
-      }
-      .mobile-nav a .mn-num {
-        color: var(--muted-2);
-        font-size: 11px;
-        min-width: 20px;
-      }
-      .mobile-nav a.active {
-        background: var(--accent-soft);
-        color: var(--accent);
-      }
-      .mobile-nav a.active .mn-num { color: var(--accent); }
+    input.field-in {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      display: block;
+      cursor: text;
     }
-
+    input.field-in:focus {
+      border-color: var(--accent);
+      color: #ffffff;
+    }
+    input.field-in::-webkit-outer-spin-button,
+    input.field-in::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
   </style>
 </head>
 <body>
-  <div class="mobile-bar">
-    <button class="mobile-burger" id="mBurger" type="button" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
-    <span class="mobile-logo">DELTA-ECO</span>
-  </div>
-  <div class="mobile-scrim" id="mScrim"></div>
-  <aside class="mobile-drawer" id="mDrawer" aria-label="Section menu">
-    <div class="mobile-drawer-head">
-      <span class="mobile-logo">DELTA-ECO</span>
-      <button class="mobile-close" id="mClose" type="button" aria-label="Close menu">&times;</button>
-    </div>
-    <nav class="mobile-nav" id="mNav"></nav>
-  </aside>
   <header class="site-header" id="siteHeader">
     <div class="header-shell">
       <a class="logo" href="#hero" aria-label="Delta-Eco home">
@@ -2270,7 +2158,7 @@
   </header>
 
   <main>
-    <section class="hero mpage-active" id="hero">
+    <section class="hero" id="hero">
       <div class="container hero-grid">
         <div class="hero-copy">
           <div class="kicker">CJM2 x AUST x Raymond Feghali Co.</div>
@@ -2313,7 +2201,7 @@
       </div>
     </section>
 
-    <section class="command-band" id="highlights" aria-label="Core system highlights">
+    <section class="command-band" aria-label="Core system highlights">
       <div class="container command-grid">
         <article class="command-card">
           <div class="mini">Control Topology</div>
@@ -2934,10 +2822,10 @@
 
                     <div class="field-block">
                       <div class="field-title">Pick Point</div>
-                      <div class="field-row"><span>X</span><div class="field-cell">237.07</div></div>
-                      <div class="field-row"><span>Y</span><div class="field-cell">139.35</div></div>
-                      <div class="field-row"><span>Z</span><div class="field-cell">-798.05</div></div>
-                      <div class="field-button" style="margin-top:10px;">Capture current position</div>
+                      <div class="field-row"><span>X</span><input type="number" class="field-cell field-in" id="pickX" value="237.07" step="1"></div>
+                      <div class="field-row"><span>Y</span><input type="number" class="field-cell field-in" id="pickY" value="139.35" step="1"></div>
+                      <div class="field-row"><span>Z</span><input type="number" class="field-cell field-in" id="pickZ" value="-798.05" step="1"></div>
+                      <div class="field-button" id="pickCapture" style="margin-top:10px;cursor:pointer;">Capture current position</div>
                     </div>
 
                     <div class="field-block">
@@ -3714,28 +3602,60 @@
         return [yj, a + b * yj];
       }
 
-      const target = { x: 0, y: 0, z: -3.0 };
-      const cur = { x: 0, y: 0, z: -3.0 };
       const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
       const LX = 1.2, LY = 1.2, LZMIN = -3.5, LZMAX = -2.55;
 
+      const toMx = (mm) => clamp(mm / 280, -LX, LX);
+      const toMy = (mm) => clamp(mm / 280, -LY, LY);
+      const toMz = (mm) => clamp(-2.45 + 1.1 * (mm + 482) / 475, LZMIN, LZMAX);
+      const mmX = (m) => m * 280;
+      const mmZ = (m) => -482 + ((m + 2.45) / -1.1) * -475;
+
+      const pX = document.getElementById('pickX');
+      const pY = document.getElementById('pickY');
+      const pZ = document.getElementById('pickZ');
+      const cap = document.getElementById('pickCapture');
+      const axX = document.getElementById('axX');
+      const axY = document.getElementById('axY');
+      const axZ = document.getElementById('axZ');
+
+      const target = { x: 0, y: 0, z: -3.0 };
+      const cur = { x: 0, y: 0, z: -3.0 };
+
+      function targetFromInputs() {
+        if (pX) target.x = toMx(parseFloat(pX.value) || 0);
+        if (pY) target.y = toMy(parseFloat(pY.value) || 0);
+        if (pZ) target.z = toMz(parseFloat(pZ.value) || -719.5);
+      }
+      function inputsFromTarget() {
+        if (pX) pX.value = mmX(target.x).toFixed(2);
+        if (pY) pY.value = mmX(target.y).toFixed(2);
+        if (pZ) pZ.value = mmZ(target.z).toFixed(2);
+      }
+      targetFromInputs();
+      [pX, pY, pZ].forEach((el) => el && el.addEventListener('change', () => {
+        targetFromInputs();
+        inputsFromTarget();
+      }));
+
       function jog(axis) {
-        if (axis === 'home') { target.x = 0; target.y = 0; target.z = -3.0; return; }
-        if (axis === 'x+') target.x = clamp(target.x + 0.14, -LX, LX);
+        if (axis === 'home') { target.x = 0; target.y = 0; target.z = -3.0; }
+        else if (axis === 'x+') target.x = clamp(target.x + 0.14, -LX, LX);
         else if (axis === 'x-') target.x = clamp(target.x - 0.14, -LX, LX);
         else if (axis === 'y+') target.y = clamp(target.y + 0.14, -LY, LY);
         else if (axis === 'y-') target.y = clamp(target.y - 0.14, -LY, LY);
         else if (axis === 'z+') target.z = clamp(target.z + 0.13, LZMIN, LZMAX);
         else if (axis === 'z-') target.z = clamp(target.z - 0.13, LZMIN, LZMAX);
+        inputsFromTarget();
       }
       document.querySelectorAll('[data-jog]').forEach((btn) => {
         btn.addEventListener('click', () => jog(btn.getAttribute('data-jog')));
       });
 
-      const axX = document.getElementById('axX');
-      const axY = document.getElementById('axY');
-      const axZ = document.getElementById('axZ');
-      const mapZ = (z) => -482 + ((z + 2.45) / -1.1) * -475;
+      if (cap) cap.addEventListener('click', () => {
+        target.x = cur.x; target.y = cur.y; target.z = cur.z;
+        inputsFromTarget();
+      });
 
       let lw = 0, lh = 0;
       function resize() {
@@ -3780,91 +3700,13 @@
 
         if (axX) axX.textContent = (cur.x * 280).toFixed(2);
         if (axY) axY.textContent = (cur.y * 280).toFixed(2);
-        if (axZ) axZ.textContent = mapZ(cur.z).toFixed(2);
+        if (axZ) axZ.textContent = mmZ(cur.z).toFixed(2);
 
         controls.update();
         renderer.render(scene, camera);
       }
       resize();
       frame();
-    })();
-  </script>
-
-  <script>
-    (function () {
-      const pages = [
-        ['hero', 'Home'], ['highlights', 'Highlights'], ['performance', 'Demo'],
-        ['about', 'About'], ['architecture', 'Architecture'], ['operations', 'Pipeline'],
-        ['capabilities', 'Capabilities'], ['software', 'Software'], ['realtime', 'Real-Time'],
-        ['specs', 'Specs'], ['interface', 'Interface'], ['vision', 'Vision'],
-        ['differentiators', 'Differentiators'], ['comparison', 'Comparison'],
-        ['impact', 'Impact'], ['team', 'Team']
-      ];
-      const drawer = document.getElementById('mDrawer');
-      const scrim = document.getElementById('mScrim');
-      const burger = document.getElementById('mBurger');
-      const closeBtn = document.getElementById('mClose');
-      const nav = document.getElementById('mNav');
-      if (!drawer || !nav) return;
-
-      const isPhone = () => window.matchMedia('(max-width: 820px)').matches;
-
-      pages.forEach((pg, i) => {
-        const a = document.createElement('a');
-        a.href = '#' + pg[0];
-        a.dataset.page = pg[0];
-        a.innerHTML = '<span class="mn-num">' + String(i + 1).padStart(2, '0') + '</span>' + pg[1];
-        nav.appendChild(a);
-      });
-      const links = Array.from(nav.querySelectorAll('a'));
-
-      function setDrawer(open) {
-        drawer.classList.toggle('open', open);
-        scrim.classList.toggle('open', open);
-      }
-
-      function showPage(id) {
-        const sections = document.querySelectorAll('main > section');
-        let found = false;
-        sections.forEach((s) => {
-          const on = s.id === id;
-          s.classList.toggle('mpage-active', on);
-          if (on) {
-            found = true;
-            s.querySelectorAll('.fade-up, .slide-left, .slide-right').forEach((el) => el.classList.add('in-view'));
-          }
-        });
-        if (!found && sections[0]) sections[0].classList.add('mpage-active');
-        links.forEach((l) => l.classList.toggle('active', l.dataset.page === id));
-        window.scrollTo(0, 0);
-      }
-
-      burger.addEventListener('click', () => setDrawer(true));
-      closeBtn.addEventListener('click', () => setDrawer(false));
-      scrim.addEventListener('click', () => setDrawer(false));
-
-      nav.addEventListener('click', (e) => {
-        const a = e.target.closest('a[data-page]');
-        if (!a) return;
-        e.preventDefault();
-        showPage(a.dataset.page);
-        setDrawer(false);
-      });
-
-      document.addEventListener('click', (e) => {
-        if (!isPhone()) return;
-        const t = e.target.closest('a[href^="#"], [data-scroll]');
-        if (!t || t.closest('#mNav')) return;
-        const ref = t.getAttribute('href') || t.getAttribute('data-scroll') || '';
-        const id = ref.replace('#', '');
-        if (id && document.getElementById(id)) {
-          e.preventDefault();
-          showPage(id);
-          setDrawer(false);
-        }
-      });
-
-      if (links[0]) links[0].classList.add('active');
     })();
   </script>
 </body>
