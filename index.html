@@ -2781,47 +2781,66 @@
           </div>
 
           <div class="panel fade-up">
-            <svg viewBox="0 0 700 430" aria-label="Vision conveyor illustration">
-              <rect x="0" y="0" width="700" height="430" rx="24" fill="#07090c"/>
-              <g opacity=".18">
-                <line x1="0" y1="70" x2="700" y2="70" stroke="#00d4ff"/>
-                <line x1="0" y1="130" x2="700" y2="130" stroke="#00d4ff"/>
-                <line x1="0" y1="190" x2="700" y2="190" stroke="#00d4ff"/>
-                <line x1="0" y1="250" x2="700" y2="250" stroke="#00d4ff"/>
-                <line x1="0" y1="310" x2="700" y2="310" stroke="#00d4ff"/>
-                <line x1="0" y1="370" x2="700" y2="370" stroke="#00d4ff"/>
+            <svg viewBox="0 0 720 440" role="img" aria-label="Vision system: Basler camera, YOLO detection, conveyor">
+              <rect width="720" height="440" rx="20" fill="#0a0d12"/>
+
+              <!-- YOLO detection readout -->
+              <rect x="448" y="48" width="214" height="100" rx="12" fill="#0c1118" stroke="#00d4ff" stroke-width="1.5"/>
+              <text x="468" y="79" font-family="DM Mono, monospace" font-size="14" fill="#00d4ff">YOLO Detection</text>
+              <g font-family="DM Mono, monospace" font-size="12.5" fill="#c4ced8">
+                <text x="468" y="101">Frame: 1280&#215;720</text>
+                <text x="468" y="120">Inference: Active</text>
+                <text x="468" y="139">Pick Target: Locked</text>
               </g>
-              <rect x="40" y="260" width="620" height="70" rx="16" fill="#0b161c" stroke="#00d4ff" stroke-opacity=".2"/>
-              <g class="belt-loop" opacity=".42">
-                <rect x="40" y="260" width="90" height="70" fill="#0d2730"/>
-                <rect x="160" y="260" width="90" height="70" fill="#0d2730"/>
-                <rect x="280" y="260" width="90" height="70" fill="#0d2730"/>
-                <rect x="400" y="260" width="90" height="70" fill="#0d2730"/>
-                <rect x="520" y="260" width="90" height="70" fill="#0d2730"/>
-                <rect x="640" y="260" width="90" height="70" fill="#0d2730"/>
+
+              <!-- field-of-view sight lines -->
+              <g stroke="#00d4ff" stroke-width="1.5" stroke-opacity=".55" stroke-dasharray="6 5">
+                <line x1="353" y1="172" x2="150" y2="312">
+                  <animate attributeName="stroke-dashoffset" values="22;0" dur="0.95s" repeatCount="indefinite"/>
+                </line>
+                <line x1="383" y1="172" x2="560" y2="312">
+                  <animate attributeName="stroke-dashoffset" values="22;0" dur="0.95s" repeatCount="indefinite"/>
+                </line>
               </g>
+
+              <!-- camera -->
+              <rect x="331" y="110" width="74" height="62" rx="12" fill="#0e141b" stroke="#00d4ff" stroke-width="2"/>
+              <circle cx="368" cy="141" r="13" fill="none" stroke="#00d4ff" stroke-width="2">
+                <animate attributeName="r" values="13;31" dur="2.4s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.65;0" dur="2.4s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="368" cy="141" r="19" fill="none" stroke="#00d4ff" stroke-width="2.4"/>
+              <circle cx="368" cy="141" r="10" fill="#16c7e8"/>
+              <circle cx="368" cy="141" r="4" fill="#bdf2ff">
+                <animate attributeName="opacity" values="1;0.4;1" dur="2.4s" repeatCount="indefinite"/>
+              </circle>
+              <rect x="300" y="92" width="136" height="21" rx="5" fill="#0e141b" stroke="#00d4ff" stroke-width="1.4"/>
+              <text x="368" y="107" text-anchor="middle" font-family="DM Mono, monospace" font-size="10.5" fill="#00d4ff" letter-spacing="1">BASLER ACE2 PRO</text>
+
+              <!-- conveyor belt -->
+              <rect x="96" y="312" width="540" height="74" rx="10" fill="#12161d" stroke="#00d4ff" stroke-width="2"/>
+
+              <!-- detected objects -->
               <g>
-                <rect x="286" y="64" width="128" height="52" rx="16" fill="#0e1116" stroke="#00d4ff"/>
-                <text x="306" y="96" fill="#fff" font-family="DM Mono" font-size="18">CAMERA</text>
-                <path d="M320 116L218 258" stroke="#00d4ff" stroke-opacity=".3" stroke-width="2"/>
-                <path d="M380 116L348 258" stroke="#00d4ff" stroke-opacity=".3" stroke-width="2"/>
-                <path d="M414 116L500 258" stroke="#00d4ff" stroke-opacity=".3" stroke-width="2"/>
+                <rect x="128" y="334" width="52" height="32" rx="4" fill="#1d5560"/>
+                <rect x="292" y="334" width="52" height="32" rx="4" fill="#1d5560"/>
+                <rect x="456" y="334" width="52" height="32" rx="4" fill="#1d5560"/>
               </g>
-              <g>
-                <rect x="120" y="278" width="52" height="36" rx="8" fill="#c3c3c3"/>
-                <rect x="276" y="272" width="62" height="42" rx="10" fill="#b2ac9d"/>
-                <rect x="448" y="280" width="46" height="32" rx="8" fill="#d4d4d4"/>
-                <rect x="540" y="274" width="56" height="38" rx="10" fill="#989898"/>
+              <g fill="none" stroke="#00d4ff" stroke-width="1.6" stroke-dasharray="5 4">
+                <rect x="120" y="326" width="68" height="48" rx="3">
+                  <animate attributeName="stroke-opacity" values="1;0.4;1" dur="2.6s" begin="0s" repeatCount="indefinite"/>
+                </rect>
+                <rect x="284" y="326" width="68" height="48" rx="3">
+                  <animate attributeName="stroke-opacity" values="1;0.4;1" dur="2.6s" begin="0.7s" repeatCount="indefinite"/>
+                </rect>
+                <rect x="448" y="326" width="68" height="48" rx="3">
+                  <animate attributeName="stroke-opacity" values="1;0.4;1" dur="2.6s" begin="1.4s" repeatCount="indefinite"/>
+                </rect>
               </g>
-              <g fill="none" stroke="#00d4ff" stroke-width="2">
-                <rect class="bbox" x="114" y="270" width="64" height="52" rx="8"/>
-                <rect class="bbox d1" x="268" y="262" width="78" height="58" rx="8"/>
-                <rect class="bbox d2" x="441" y="270" width="60" height="48" rx="8"/>
-                <rect class="bbox d3" x="532" y="264" width="72" height="54" rx="8"/>
+              <g font-family="DM Mono, monospace" font-size="13" fill="#00d4ff">
+                <text x="122" y="318">96%</text>
+                <text x="286" y="318">94%</text>
               </g>
-              <path d="M575 190L636 190L636 142" stroke="#00d4ff" stroke-width="2"/>
-              <rect x="488" y="104" width="148" height="38" rx="12" fill="#0e1116" stroke="#00d4ff"/>
-              <text x="512" y="128" fill="#fff" font-family="DM Mono" font-size="16">[IK Solver]</text>
             </svg>
           </div>
         </div>
