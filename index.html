@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=1280">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DELTA-ECO | Open-Architecture Delta Robot</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -918,12 +918,43 @@
     }
 
     .viewport {
+      position: relative;
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.06);
       background: #000;
       min-height: 500px;
       overflow: hidden;
     }
+
+    .viewport-badge {
+      position: absolute;
+      left: 14px; top: 12px;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(8,10,13,.62);
+      color: #c1c8cf;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+    .viewport-badge::before {
+      content: "";
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    .control-btn[data-jog] { cursor: pointer; }
+    .control-btn[data-jog]:hover { border-color: var(--accent); color: var(--accent); }
+    .control-btn[data-jog]:active { transform: translateY(1px); }
 
     .pallet-panel h4 {
       font-size: 20px;
@@ -2084,9 +2115,137 @@
       .livectl-view { border-right: 0; border-bottom: 1px solid var(--border); min-height: 340px; }
     }
 
+    /* ===== mobile paged version ===== */
+    .mobile-bar, .mobile-drawer, .mobile-scrim { display: none; }
+
+    @media (max-width: 820px) {
+      .site-header { display: none !important; }
+      body { padding-top: 56px; }
+
+      main > section { display: none; }
+      main > section.mpage-active { display: block; }
+
+      .mobile-bar {
+        display: flex;
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 60;
+        height: 56px;
+        align-items: center;
+        gap: 14px;
+        padding: 0 16px;
+        border-bottom: 1px solid var(--border);
+        background: rgba(8, 10, 13, 0.92);
+        backdrop-filter: blur(10px);
+      }
+      .mobile-burger {
+        width: 40px; height: 38px;
+        display: grid;
+        align-content: center;
+        gap: 5px;
+        padding: 0 10px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        cursor: pointer;
+      }
+      .mobile-burger span {
+        display: block;
+        height: 2px;
+        border-radius: 2px;
+        background: var(--text);
+      }
+      .mobile-logo {
+        font-family: var(--font-head);
+        font-size: 15px;
+        letter-spacing: .14em;
+      }
+      .mobile-scrim {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 70;
+        background: rgba(0, 0, 0, .6);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .26s ease;
+      }
+      .mobile-scrim.open { opacity: 1; pointer-events: auto; }
+      .mobile-drawer {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0; bottom: 0; left: 0;
+        z-index: 71;
+        width: min(82vw, 320px);
+        background: var(--bg-2);
+        border-right: 1px solid var(--border);
+        transform: translateX(-100%);
+        transition: transform .28s ease;
+        overflow-y: auto;
+      }
+      .mobile-drawer.open { transform: translateX(0); }
+      .mobile-drawer-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 18px;
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        background: var(--bg-2);
+      }
+      .mobile-close {
+        width: 34px; height: 34px;
+        border-radius: 9px;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        color: var(--text);
+        font-size: 20px;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .mobile-nav { padding: 10px; display: flex; flex-direction: column; gap: 2px; }
+      .mobile-nav a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px 14px;
+        border-radius: 10px;
+        color: var(--muted);
+        font-family: var(--font-mono);
+        font-size: 13px;
+        letter-spacing: .04em;
+      }
+      .mobile-nav a .mn-num {
+        color: var(--muted-2);
+        font-size: 11px;
+        min-width: 20px;
+      }
+      .mobile-nav a.active {
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+      .mobile-nav a.active .mn-num { color: var(--accent); }
+    }
+
   </style>
 </head>
 <body>
+  <div class="mobile-bar">
+    <button class="mobile-burger" id="mBurger" type="button" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+    <span class="mobile-logo">DELTA-ECO</span>
+  </div>
+  <div class="mobile-scrim" id="mScrim"></div>
+  <aside class="mobile-drawer" id="mDrawer" aria-label="Section menu">
+    <div class="mobile-drawer-head">
+      <span class="mobile-logo">DELTA-ECO</span>
+      <button class="mobile-close" id="mClose" type="button" aria-label="Close menu">&times;</button>
+    </div>
+    <nav class="mobile-nav" id="mNav"></nav>
+  </aside>
   <header class="site-header" id="siteHeader">
     <div class="header-shell">
       <a class="logo" href="#hero" aria-label="Delta-Eco home">
@@ -2111,7 +2270,7 @@
   </header>
 
   <main>
-    <section class="hero" id="hero">
+    <section class="hero mpage-active" id="hero">
       <div class="container hero-grid">
         <div class="hero-copy">
           <div class="kicker">CJM2 x AUST x Raymond Feghali Co.</div>
@@ -2154,7 +2313,7 @@
       </div>
     </section>
 
-    <section class="command-band" aria-label="Core system highlights">
+    <section class="command-band" id="highlights" aria-label="Core system highlights">
       <div class="container command-grid">
         <article class="command-card">
           <div class="mini">Control Topology</div>
@@ -2679,38 +2838,6 @@
           <p>The software exposes the robot as a usable industrial tool: live drive states, motion modes, palletizing workflows, manual control, and a right-side control panel that keeps the machine status visible at all times.</p>
         </div>
 
-        <div class="livectl panel fade-up">
-          <div class="livectl-view">
-            <canvas id="controlCanvas" role="img" aria-label="Interactive delta robot control"></canvas>
-            <div class="livectl-badge">Live IK &middot; drag to orbit</div>
-          </div>
-          <div class="livectl-panel">
-            <div class="livectl-title">Target Position <span>// operator input</span></div>
-            <p class="livectl-hint">Move an axis &mdash; the control software solves inverse kinematics and the machine transforms in real time.</p>
-            <div class="ctl-row">
-              <label>X AXIS</label>
-              <input type="range" id="ctlX" min="-130" max="130" step="1" value="0" aria-label="X axis target">
-              <output id="ctlXv">0 mm</output>
-            </div>
-            <div class="ctl-row">
-              <label>Y AXIS</label>
-              <input type="range" id="ctlY" min="-130" max="130" step="1" value="0" aria-label="Y axis target">
-              <output id="ctlYv">0 mm</output>
-            </div>
-            <div class="ctl-row">
-              <label>Z AXIS</label>
-              <input type="range" id="ctlZ" min="-360" max="-240" step="1" value="-300" aria-label="Z axis target">
-              <output id="ctlZv">-300 mm</output>
-            </div>
-            <div class="livectl-readout">
-              <div class="ro"><span>&theta;1</span><b id="roT1">36&deg;</b></div>
-              <div class="ro"><span>&theta;2</span><b id="roT2">36&deg;</b></div>
-              <div class="ro"><span>&theta;3</span><b id="roT3">36&deg;</b></div>
-            </div>
-            <div class="livectl-status" id="ctlStatus">&#9679; Reachable</div>
-          </div>
-        </div>
-
         <div class="panel interface-shell fade-up">
           <div class="hmi">
             <div class="hmi-top">
@@ -2797,53 +2924,8 @@
 
                 <div class="workspace-area">
                   <div class="viewport">
-                    <svg viewBox="0 0 760 520" style="width:100%;height:100%;" aria-label="3D style delta arm viewport">
-                      <g stroke="#343434" stroke-width="1" fill="none" opacity=".95">
-                        <path d="M170 180L430 150L575 235L315 265Z"/>
-                        <path d="M190 196L450 166L555 228L295 258Z"/>
-                        <path d="M210 212L470 182L535 221L275 251Z"/>
-                        <path d="M230 228L490 198L515 214L255 244Z"/>
-                        <path d="M250 244L510 214L495 207L235 237Z"/>
-                        <line x1="170" y1="180" x2="235" y2="412"/>
-                        <line x1="190" y1="196" x2="255" y2="428"/>
-                        <line x1="210" y1="212" x2="275" y2="444"/>
-                        <line x1="230" y1="228" x2="295" y2="460"/>
-                        <line x1="250" y1="244" x2="315" y2="476"/>
-                        <line x1="290" y1="176" x2="555" y2="228"/>
-                        <line x1="275" y1="192" x2="535" y2="244"/>
-                        <line x1="260" y1="208" x2="515" y2="260"/>
-                        <line x1="245" y1="224" x2="495" y2="276"/>
-                      </g>
-                      <g stroke-width="4" fill="none">
-                        <line x1="366" y1="148" x2="366" y2="96" stroke="#22b1ff"/>
-                        <line x1="366" y1="148" x2="307" y2="190" stroke="#ff2e5f"/>
-                        <line x1="366" y1="148" x2="412" y2="175" stroke="#4cf57a"/>
-                      </g>
-                      <g stroke="#ff67cf" stroke-width="5" fill="none">
-                        <line x1="241" y1="204" x2="366" y2="148"/>
-                        <line x1="366" y1="148" x2="486" y2="206"/>
-                      </g>
-                      <g stroke="#67ff88" stroke-width="5" fill="none">
-                        <line x1="241" y1="204" x2="332" y2="446"/>
-                        <line x1="486" y1="206" x2="370" y2="448"/>
-                        <line x1="366" y1="148" x2="351" y2="462"/>
-                        <line x1="264" y1="221" x2="332" y2="446" opacity=".78"/>
-                        <line x1="507" y1="223" x2="370" y2="448" opacity=".78"/>
-                        <line x1="392" y1="166" x2="351" y2="462" opacity=".78"/>
-                      </g>
-                      <g stroke="#7fd0ff" stroke-width="2.6" fill="none">
-                        <polygon points="241,204 366,148 486,206"/>
-                        <polygon points="332,446 351,462 370,448"/>
-                      </g>
-                      <g fill="#9ed8ff">
-                        <circle cx="241" cy="204" r="7"/>
-                        <circle cx="366" cy="148" r="7"/>
-                        <circle cx="486" cy="206" r="7"/>
-                        <circle cx="332" cy="446" r="7"/>
-                        <circle cx="351" cy="462" r="8"/>
-                        <circle cx="370" cy="448" r="7"/>
-                      </g>
-                    </svg>
+                    <canvas id="controlCanvas" role="img" aria-label="Live delta robot driven by Cartesian Jog"></canvas>
+                    <div class="viewport-badge">Live 3D &middot; drag to orbit</div>
                   </div>
 
                   <div class="pallet-panel">
@@ -2892,9 +2974,9 @@
                 <div class="control-block">
                   <h4 style="margin-bottom:10px;">Axis Position</h4>
                   <div class="readout">
-                    <div class="readout-row"><span>X</span><strong>0.00</strong></div>
-                    <div class="readout-row"><span>Y</span><strong>0.00</strong></div>
-                    <div class="readout-row"><span>Z</span><strong>-700.00</strong></div>
+                    <div class="readout-row"><span>X</span><strong id="axX">0.00</strong></div>
+                    <div class="readout-row"><span>Y</span><strong id="axY">0.00</strong></div>
+                    <div class="readout-row"><span>Z</span><strong id="axZ">-719.50</strong></div>
                   </div>
                 </div>
 
@@ -2902,14 +2984,14 @@
                   <h4 style="margin-bottom:10px;">Cartesian Jog</h4>
                   <div class="cross-jog">
                     <span class="blank">.</span>
-                    <div class="control-btn">Y+</div>
+                    <div class="control-btn" data-jog="y+">Y+</div>
                     <span class="blank">.</span>
-                    <div class="control-btn">X-</div>
-                    <div class="control-btn">HOME</div>
-                    <div class="control-btn">X+</div>
-                    <div class="control-btn">Z-</div>
-                    <div class="control-btn">Y-</div>
-                    <div class="control-btn">Z+</div>
+                    <div class="control-btn" data-jog="x-">X-</div>
+                    <div class="control-btn" data-jog="home">HOME</div>
+                    <div class="control-btn" data-jog="x+">X+</div>
+                    <div class="control-btn" data-jog="z-">Z-</div>
+                    <div class="control-btn" data-jog="y-">Y-</div>
+                    <div class="control-btn" data-jog="z+">Z+</div>
                   </div>
                 </div>
 
@@ -3632,26 +3714,28 @@
         return [yj, a + b * yj];
       }
 
-      const sx = document.getElementById('ctlX');
-      const sy = document.getElementById('ctlY');
-      const sz = document.getElementById('ctlZ');
-      const ox = document.getElementById('ctlXv');
-      const oy = document.getElementById('ctlYv');
-      const oz = document.getElementById('ctlZv');
-      const r1 = document.getElementById('roT1');
-      const r2 = document.getElementById('roT2');
-      const r3 = document.getElementById('roT3');
-      const statusEl = document.getElementById('ctlStatus');
-
-      function syncOut() {
-        if (ox) ox.textContent = sx.value + ' mm';
-        if (oy) oy.textContent = sy.value + ' mm';
-        if (oz) oz.textContent = sz.value + ' mm';
-      }
-      [sx, sy, sz].forEach((s) => s && s.addEventListener('input', syncOut));
-      syncOut();
-
+      const target = { x: 0, y: 0, z: -3.0 };
       const cur = { x: 0, y: 0, z: -3.0 };
+      const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+      const LX = 1.2, LY = 1.2, LZMIN = -3.5, LZMAX = -2.55;
+
+      function jog(axis) {
+        if (axis === 'home') { target.x = 0; target.y = 0; target.z = -3.0; return; }
+        if (axis === 'x+') target.x = clamp(target.x + 0.14, -LX, LX);
+        else if (axis === 'x-') target.x = clamp(target.x - 0.14, -LX, LX);
+        else if (axis === 'y+') target.y = clamp(target.y + 0.14, -LY, LY);
+        else if (axis === 'y-') target.y = clamp(target.y - 0.14, -LY, LY);
+        else if (axis === 'z+') target.z = clamp(target.z + 0.13, LZMIN, LZMAX);
+        else if (axis === 'z-') target.z = clamp(target.z - 0.13, LZMIN, LZMAX);
+      }
+      document.querySelectorAll('[data-jog]').forEach((btn) => {
+        btn.addEventListener('click', () => jog(btn.getAttribute('data-jog')));
+      });
+
+      const axX = document.getElementById('axX');
+      const axY = document.getElementById('axY');
+      const axZ = document.getElementById('axZ');
+      const mapZ = (z) => -482 + ((z + 2.45) / -1.1) * -475;
 
       let lw = 0, lh = 0;
       function resize() {
@@ -3668,13 +3752,9 @@
         requestAnimationFrame(frame);
         resize();
 
-        const tx = (sx ? +sx.value : 0) / 100;
-        const ty = (sy ? +sy.value : 0) / 100;
-        const tz = (sz ? +sz.value : -300) / 100;
-        const nx = cur.x + (tx - cur.x) * 0.16;
-        const ny = cur.y + (ty - cur.y) * 0.16;
-        const nz = cur.z + (tz - cur.z) * 0.16;
-
+        const nx = cur.x + (target.x - cur.x) * 0.14;
+        const ny = cur.y + (target.y - cur.y) * 0.14;
+        const nz = cur.z + (target.z - cur.z) * 0.14;
         let reach = true;
         for (const p of parts) {
           const lt = rotZ(nx, ny, -p.az);
@@ -3683,14 +3763,12 @@
         if (reach) { cur.x = nx; cur.y = ny; cur.z = nz; }
 
         platform.position.copy(v3(cur.x, cur.y, cur.z));
-        const ang = [0, 0, 0];
-        parts.forEach((p, i) => {
+        parts.forEach((p) => {
           const lt = rotZ(cur.x, cur.y, -p.az);
           const sol = elbowLocal(lt[0], lt[1], cur.z);
           if (!sol) return;
           const g = rotZ(0, sol[0], p.az);
           const elbowPos = v3(g[0], g[1], sol[1]);
-          ang[i] = Math.atan2(-sol[1], Math.abs(sol[0] + Rf)) * 180 / Math.PI;
           const at = rotZ(0, -Re, p.az);
           const attach = v3(cur.x + at[0], cur.y + at[1], cur.z);
           orient(p.bicep, p.motorPos, elbowPos);
@@ -3700,19 +3778,93 @@
           orient(p.rodB, elbowPos.clone().sub(off), attach.clone().sub(off));
         });
 
-        if (r1) r1.textContent = ang[0].toFixed(0) + '°';
-        if (r2) r2.textContent = ang[1].toFixed(0) + '°';
-        if (r3) r3.textContent = ang[2].toFixed(0) + '°';
-        if (statusEl) {
-          statusEl.textContent = reach ? '● Reachable' : '● Out of reach';
-          statusEl.classList.toggle('bad', !reach);
-        }
+        if (axX) axX.textContent = (cur.x * 280).toFixed(2);
+        if (axY) axY.textContent = (cur.y * 280).toFixed(2);
+        if (axZ) axZ.textContent = mapZ(cur.z).toFixed(2);
 
         controls.update();
         renderer.render(scene, camera);
       }
       resize();
       frame();
+    })();
+  </script>
+
+  <script>
+    (function () {
+      const pages = [
+        ['hero', 'Home'], ['highlights', 'Highlights'], ['performance', 'Demo'],
+        ['about', 'About'], ['architecture', 'Architecture'], ['operations', 'Pipeline'],
+        ['capabilities', 'Capabilities'], ['software', 'Software'], ['realtime', 'Real-Time'],
+        ['specs', 'Specs'], ['interface', 'Interface'], ['vision', 'Vision'],
+        ['differentiators', 'Differentiators'], ['comparison', 'Comparison'],
+        ['impact', 'Impact'], ['team', 'Team']
+      ];
+      const drawer = document.getElementById('mDrawer');
+      const scrim = document.getElementById('mScrim');
+      const burger = document.getElementById('mBurger');
+      const closeBtn = document.getElementById('mClose');
+      const nav = document.getElementById('mNav');
+      if (!drawer || !nav) return;
+
+      const isPhone = () => window.matchMedia('(max-width: 820px)').matches;
+
+      pages.forEach((pg, i) => {
+        const a = document.createElement('a');
+        a.href = '#' + pg[0];
+        a.dataset.page = pg[0];
+        a.innerHTML = '<span class="mn-num">' + String(i + 1).padStart(2, '0') + '</span>' + pg[1];
+        nav.appendChild(a);
+      });
+      const links = Array.from(nav.querySelectorAll('a'));
+
+      function setDrawer(open) {
+        drawer.classList.toggle('open', open);
+        scrim.classList.toggle('open', open);
+      }
+
+      function showPage(id) {
+        const sections = document.querySelectorAll('main > section');
+        let found = false;
+        sections.forEach((s) => {
+          const on = s.id === id;
+          s.classList.toggle('mpage-active', on);
+          if (on) {
+            found = true;
+            s.querySelectorAll('.fade-up, .slide-left, .slide-right').forEach((el) => el.classList.add('in-view'));
+          }
+        });
+        if (!found && sections[0]) sections[0].classList.add('mpage-active');
+        links.forEach((l) => l.classList.toggle('active', l.dataset.page === id));
+        window.scrollTo(0, 0);
+      }
+
+      burger.addEventListener('click', () => setDrawer(true));
+      closeBtn.addEventListener('click', () => setDrawer(false));
+      scrim.addEventListener('click', () => setDrawer(false));
+
+      nav.addEventListener('click', (e) => {
+        const a = e.target.closest('a[data-page]');
+        if (!a) return;
+        e.preventDefault();
+        showPage(a.dataset.page);
+        setDrawer(false);
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!isPhone()) return;
+        const t = e.target.closest('a[href^="#"], [data-scroll]');
+        if (!t || t.closest('#mNav')) return;
+        const ref = t.getAttribute('href') || t.getAttribute('data-scroll') || '';
+        const id = ref.replace('#', '');
+        if (id && document.getElementById(id)) {
+          e.preventDefault();
+          showPage(id);
+          setDrawer(false);
+        }
+      });
+
+      if (links[0]) links[0].classList.add('active');
     })();
   </script>
 </body>
