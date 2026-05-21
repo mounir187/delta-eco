@@ -760,6 +760,10 @@
     .ops-card h4 { font-size: 17px; margin-bottom: 8px; }
     .ops-card p { color: var(--muted); line-height: 1.7; font-size: 14px; }
 
+    #interface {
+      --max: 1480px;
+    }
+
     .interface-shell {
       padding: 18px;
     }
@@ -913,7 +917,7 @@
 
     .workspace-area {
       display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(300px, .9fr);
+      grid-template-columns: minmax(0, 1.85fr) minmax(280px, .8fr);
       gap: 12px;
     }
 
@@ -922,7 +926,7 @@
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.06);
       background: #000;
-      min-height: 500px;
+      min-height: 560px;
       overflow: hidden;
     }
 
@@ -2131,11 +2135,30 @@
       -webkit-appearance: none;
       margin: 0;
     }
-    /* phone fix: with the fixed-width viewport, 100vh becomes huge on a
-       phone and leaves big empty gaps — size the hero to its content. */
     @media (hover: none) and (pointer: coarse) {
       .hero { min-height: auto; }
-      .hero-grid { align-items: center; }
+    }
+
+    /* ===== true responsive phone layout ===== */
+    @media (max-width: 600px) {
+      .kicker,
+      .eyebrow {
+        font-size: 10.5px;
+        letter-spacing: .1em;
+        flex-wrap: wrap;
+      }
+      .hero-tag {
+        font-size: 11px;
+        letter-spacing: .1em;
+      }
+      .hero h1 { margin-top: 14px; }
+      .bench-head { flex-wrap: wrap; gap: 6px; }
+      .bench-name { font-size: 12px; }
+      .bench-status { font-size: 10px; }
+      .bench-card { padding: 18px 18px 12px; }
+      .bench-row { font-size: 12px; gap: 12px; }
+      .modal { padding: 14px; }
+      .section-head h2 br { display: none; }
     }
   </style>
 </head>
@@ -2931,13 +2954,13 @@
 
         <div class="vision-grid">
           <div class="vision-copy fade-up">
-            <p>Delta-Eco uses a <span class="hl">Basler Ace2 Pro</span> industrial camera and <span class="hl">YOLO-based object detection</span> to identify, classify, and localize objects on a conveyor in real time.</p>
+            <p>Delta-Eco uses a <span class="hl">Logitech C170</span> industrial camera and <span class="hl">YOLO-based object detection</span> to identify, classify, and localize objects on a conveyor in real time.</p>
             <p>Instead of relying on fixed pick points or mechanical guides, the system adapts to object position dynamically.</p>
             <p>Detected objects are converted into XYZ coordinates and fed directly into the inverse kinematics solver for precision targeting.</p>
           </div>
 
           <div class="panel fade-up">
-            <svg viewBox="0 0 720 440" role="img" aria-label="Vision system: Basler camera, YOLO detection, conveyor">
+            <svg viewBox="0 0 720 440" role="img" aria-label="Vision system: Logitech camera, YOLO detection, conveyor">
               <rect width="720" height="440" rx="20" fill="#0a0d12"/>
 
               <!-- YOLO detection readout -->
@@ -2971,7 +2994,7 @@
                 <animate attributeName="opacity" values="1;0.4;1" dur="2.4s" repeatCount="indefinite"/>
               </circle>
               <rect x="300" y="92" width="136" height="21" rx="5" fill="#0e141b" stroke="#00d4ff" stroke-width="1.4"/>
-              <text x="368" y="107" text-anchor="middle" font-family="DM Mono, monospace" font-size="10.5" fill="#00d4ff" letter-spacing="1">BASLER ACE2 PRO</text>
+              <text x="368" y="107" text-anchor="middle" font-family="DM Mono, monospace" font-size="10.5" fill="#00d4ff" letter-spacing="1">LOGITECH C170</text>
 
               <!-- conveyor belt -->
               <rect x="96" y="312" width="540" height="74" rx="10" fill="#12161d" stroke="#00d4ff" stroke-width="2"/>
@@ -3150,15 +3173,15 @@
           </article>
         </div>
 
+        <div class="panel fade-up" style="margin-top:16px;">
+          <div style="color:var(--accent);font-family:var(--font-mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;">In Partnership with Raymond Feghali Co. / JC2M</div>
+        </div>
+
         <div class="grid-2" style="margin-top:16px;">
           <article class="panel fade-up"><h3 style="font-size:20px;margin-bottom:8px;">Mr. Michel Owayjan</h3><p>Project Advisor</p></article>
           <article class="panel fade-up delay-1"><h3 style="font-size:20px;margin-bottom:8px;">Mr. Mohammad Ballouz</h3><p>Co-Advisor</p></article>
-        </div>
-
-        <div class="panel fade-up" style="margin-top:16px;">
-          <div style="color:var(--accent);font-family:var(--font-mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;">In Partnership with Raymond Feghali Co. / JC2M
-
-          </div>
+          <article class="panel fade-up delay-2"><h3 style="font-size:20px;margin-bottom:8px;">Mr. Marcel Khalaf</h3><p>Technical Advisor</p></article>
+          <article class="panel fade-up delay-3"><h3 style="font-size:20px;margin-bottom:8px;">Mr. Fadi Elias Sleiman</h3><p>Technical Advisor</p></article>
         </div>
       </div>
     </section>
@@ -3186,12 +3209,12 @@
       <div class="modal-head">
         <div class="modal-title">
           <strong>Project Demo</strong>
-          <span>YouTube embed placeholder - replace VIDEO_ID with final link</span>
+          <span>Delta-Eco &mdash; system performance</span>
         </div>
         <button class="modal-close" type="button" id="closeModal">Close</button>
       </div>
       <div class="modal-frame">
-        <iframe id="demoFrame" src="https://www.youtube.com/embed/VIDEO_ID" title="Delta-Eco Demo Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe id="demoFrame" src="" title="Delta-Eco Demo Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
     </div>
   </div>
@@ -3204,7 +3227,7 @@
     const openDemo = document.getElementById("watchDemo");
     const closeDemo = document.getElementById("closeModal");
     const demoFrame = document.getElementById("demoFrame");
-    const demoSrc = demoFrame.getAttribute("src");
+    const demoSrc = "https://www.youtube.com/embed/YLjEm3dHo68?autoplay=1&rel=0";
 
     function syncHeader() {
       header.classList.toggle("visible", window.scrollY > 80);
