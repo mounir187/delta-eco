@@ -2327,6 +2327,186 @@
       .cta-info { grid-template-columns: 1fr; }
       .cta-panel { padding: 40px 22px; }
     }
+    /* ===== documentation / download guide ===== */
+    .docs-panel {
+      display: grid;
+      grid-template-columns: 282px minmax(0, 1fr);
+      gap: 46px;
+      align-items: center;
+      padding: 46px;
+    }
+    .docs-cover {
+      position: relative;
+      aspect-ratio: 210 / 297;
+      border-radius: 3px 12px 12px 3px;
+      background: linear-gradient(158deg, #141a21 0%, #0a0d11 100%);
+      border: 1px solid var(--border);
+      box-shadow: 0 26px 54px rgba(0, 0, 0, .62);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .docs-cover::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 16px;
+      background: linear-gradient(90deg, rgba(0, 0, 0, .6), rgba(255, 255, 255, .05) 70%, transparent);
+      z-index: 2;
+    }
+    .dc-band {
+      height: 8px;
+      background: linear-gradient(90deg, var(--accent), #0a7e96 65%, transparent);
+    }
+    .dc-inner {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 22px 20px 20px 34px;
+    }
+    .dc-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .dc-doctype {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      line-height: 1.7;
+    }
+    .dc-title { margin-top: auto; }
+    .dc-title span {
+      display: block;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 42px;
+      line-height: .92;
+      letter-spacing: -.01em;
+    }
+    .dc-title .l1 { color: #fff; }
+    .dc-title .l2 { color: var(--accent); }
+    .dc-sub {
+      margin-top: 12px;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .dc-meta {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, .08);
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted-2);
+    }
+    .docs-kicker {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .docs-body h3 {
+      font-family: var(--font-head);
+      font-size: 27px;
+      margin: 12px 0;
+      color: var(--text);
+      line-height: 1.15;
+    }
+    .docs-body > p {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+    .docs-list {
+      list-style: none;
+      margin: 20px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 11px 24px;
+    }
+    .docs-list li {
+      position: relative;
+      padding-left: 27px;
+      color: var(--text);
+      font-size: 13.5px;
+      line-height: 1.4;
+    }
+    .docs-list li::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 0;
+      width: 17px; height: 17px;
+      border-radius: 5px;
+      background: var(--accent-soft);
+      border: 1px solid var(--border-strong);
+    }
+    .docs-list li::after {
+      content: "";
+      position: absolute;
+      left: 6px; top: 3px;
+      width: 4.5px; height: 8px;
+      border: solid var(--accent);
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+    .docs-meta {
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      margin: 22px 0;
+    }
+    .docs-meta div {
+      flex: 1;
+      padding: 14px 12px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .docs-meta div:last-child { border-right: none; }
+    .docs-meta b {
+      display: block;
+      font-family: var(--font-head);
+      font-size: 19px;
+      color: var(--text);
+    }
+    .docs-meta span {
+      display: block;
+      margin-top: 5px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted-2);
+    }
+    .docs-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .docs-actions .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      text-decoration: none;
+    }
+    @media (max-width: 920px) {
+      .docs-panel {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 30px;
+      }
+      .docs-cover { max-width: 232px; margin: 0 auto; }
+    }
+    @media (max-width: 560px) {
+      .docs-list { grid-template-columns: 1fr; }
+    }
     /* ===== language switcher (Google Translate) ===== */
     .goog-te-banner-frame, .goog-te-gadget-icon, .goog-logo-link { display: none !important; }
     body { top: 0 !important; }
@@ -2379,6 +2559,7 @@
         <a href="#operations">Operations</a>
         <a href="#specs">Specs</a>
         <a href="#interface">Interface</a>
+        <a href="#docs">Guide</a>
         <a href="#team">Team</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -2404,7 +2585,7 @@
               <div class="label">Resolution</div>
             </div>
             <div class="metric">
-              <div class="value">120 picks/s</div>
+              <div class="value">120 picks/min</div>
               <div class="label">Pick Rate</div>
             </div>
             <div class="metric">
@@ -2485,7 +2666,7 @@
                 <div class="label">Resolution</div>
               </div>
               <div class="stat-chip card">
-                <div class="value">120 picks/s</div>
+                <div class="value">120 picks/min</div>
                 <div class="label">Pick Rate</div>
               </div>
               <div class="stat-chip card">
@@ -3398,6 +3579,64 @@
       </div>
     </section>
 
+    <section class="section" id="docs">
+      <div class="container section-shell">
+        <div class="section-head center fade-up">
+          <div class="eyebrow">Technical Documentation</div>
+          <h2>Download the complete guide.</h2>
+          <p>Every specification, safety procedure, and operating instruction for Delta-Eco &mdash; compiled into a print-ready, professional owner's manual.</p>
+        </div>
+
+        <div class="panel docs-panel fade-up">
+          <div class="docs-cover" aria-hidden="true">
+            <div class="dc-band"></div>
+            <div class="dc-inner">
+              <div class="dc-row">
+                <div class="dc-doctype">Owner's Manual<br>&amp; Technical Guide</div>
+                <svg width="26" height="26" viewBox="0 0 64 64" fill="none">
+                  <path d="M32 8L36 16H48L39.5 22L43 34L32 27L21 34L24.5 22L16 16H28L32 8Z" stroke="#00d4ff" stroke-width="2.6"/>
+                </svg>
+              </div>
+              <div class="dc-title">
+                <span class="l1">DELTA</span>
+                <span class="l2">ECO</span>
+              </div>
+              <div class="dc-sub">High-Speed Open-Architecture Delta Robot</div>
+              <div class="dc-meta">JC2M-DE-OM-001 &middot; Rev 1.0</div>
+            </div>
+          </div>
+
+          <div class="docs-body">
+            <div class="docs-kicker">Owner's Manual &amp; Technical Guide</div>
+            <h3>The full Delta-Eco technical manual.</h3>
+            <p>A 21-page professional document covering the entire machine &mdash; from safety and specifications to installation, daily operation, maintenance, and troubleshooting. Written for engineers, operators, and integrators.</p>
+            <ul class="docs-list">
+              <li>Safety &amp; emergency procedures</li>
+              <li>Full technical specifications</li>
+              <li>System &amp; control architecture</li>
+              <li>Installation &amp; commissioning</li>
+              <li>Operation &amp; operating modes</li>
+              <li>Maintenance &amp; troubleshooting</li>
+            </ul>
+            <div class="docs-meta">
+              <div><b>PDF</b><span>Format</span></div>
+              <div><b>21</b><span>Pages</span></div>
+              <div><b>A4</b><span>Print-Ready</span></div>
+            </div>
+            <div class="docs-actions">
+              <a class="btn primary" href="DELTA-ECO-Owners-Manual.pdf" download>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M12 3V15M12 15L7 10M12 15L17 10M5 19H19" stroke="#04141a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Download PDF Guide
+              </a>
+              <a class="btn" href="guide-booklet.html" target="_blank" rel="noopener">View in Browser</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="team">
       <div class="container section-shell">
         <div class="section-head fade-up">
@@ -3506,7 +3745,7 @@
     const openDemo = document.getElementById("watchDemo");
     const closeDemo = document.getElementById("closeModal");
     const demoFrame = document.getElementById("demoFrame");
-    const demoSrc = "https://www.youtube.com/embed/YLjEm3dHo68?autoplay=1&rel=0";
+    const demoSrc = "https://www.youtube.com/embed/vXel5FO1pgg?autoplay=1&rel=0";
 
     function syncHeader() {
       header.classList.toggle("visible", window.scrollY > 80);
@@ -4029,3 +4268,4 @@
   <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
+
